@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:PoELadder.Models"
+             mc:Ignorable="d"
+             x:Class="PoELadder.DataTemplates.CharacterCell">
+    <d:ViewCell.BindingContext>
+        <models:LadderEntry Rank="2" CharacterClass="Ascendant" CharacterName="mock_chr" AccountName="acc_name"/>
+    </d:ViewCell.BindingContext>
+    <ViewCell.View>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding Rank}" HorizontalOptions="End" VerticalTextAlignment="Center"/>
+            <Image Source="{Binding ClassImage}" Aspect="AspectFit" VerticalOptions="Fill"
+                   d:Source="xamarin_logo.png" d:WidthRequest="135" d:BackgroundColor="CadetBlue">
+                <Image.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="Android" Value="75"/>
+                        <On Platform="UWP" Value="-1"/>
+                    </OnPlatform>
+                </Image.WidthRequest>
+            </Image>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="&#xf111;" TextColor="Red" FontFamily="{StaticResource FaSolid}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsOnline}" Value="True">
+                                <Setter Property="TextColor" Value="Green"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Text="{Binding AccountName}" Style="{DynamicResource ListItemTextStyle}"/>
+                    <Label Text="&#xf1e8;" FontFamily="{StaticResource FaBrands}" IsVisible="False" TextColor="Purple">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding TwitchExists}" Value="True">
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Text="{Binding TwitchName}" IsVisible="False" TextColor="Purple" Style="{DynamicResource CaptionStyle}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding TwitchExists}" Value="True">
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label FontFamily="{StaticResource FaSolid}" Text="&#xf54c;" TextColor="Red" IsVisible="False">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsDead}" Value="True">
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Text="{Binding CharacterName}" Style="{DynamicResource ListItemDetailTextStyle}"/>
+                    <Label Text="{Binding CharacterLevel}" Style="{DynamicResource CaptionStyle}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding CharacterLevel}" Value="0">
+                                <Setter Property="Text" Value="{Binding Time, StringFormat='{0} seconds'}"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ViewCell.View>
+</ViewCell>

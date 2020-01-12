@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:m="clr-namespace:PoELadder.Models"
+             xmlns:dt="clr-namespace:PoELadder.DataTemplates"
+             mc:Ignorable="d"
+             x:Class="PoELadder.Views.ItemsPage"
+             Title="{Binding DataStore.LadderType.Title}"
+             x:Name="BrowseItemsPage"
+                  BackgroundColor="Black">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding DataStore.SelectedRealm}" Clicked="ChooseRealm" Order="Primary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <Picker x:Name="RealmPicker" ItemsSource="{Binding DataStore.Realms}" IsVisible="False"/>
+        <Picker x:Name="LeaguePicker" ItemsSource="{Binding DataStore.Leagues}" ItemDisplayBinding="{Binding Id}" TextColor="PapayaWhip" BackgroundColor="Gray"/>
+        <ActivityIndicator IsRunning="{Binding DataStore.IsBusy}" IsVisible="{Binding DataStore.IsBusy}">
+        </ActivityIndicator>
+        <Label Text="No result" IsVisible="False">
+            <Label.Triggers>
+                <MultiTrigger TargetType="Label">
+                    <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding DataStore.Items.Count}" Value="0"/>
+                        <BindingCondition Binding="{Binding DataStore.IsBusy}" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="IsVisible" Value="True"/>
+                </MultiTrigger>
+            </Label.Triggers>
+        </Label>
+        <ListView x:Name="ItemsListView"
+                  SeparatorColor="DarkGoldenrod"
+                ItemsSource="{Binding DataStore.Items}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding DataStore.IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected">
+            <d:ListView.ItemsSource>
+                <x:Array Type="{x:Type m:LadderEntry}">
+                    <m:LadderEntry  CharacterClass="Scion" CharacterName="crc_Name here" Rank="1" IsOnline="True"/>
+                    <m:LadderEntry  CharacterClass="Ascendant" CharacterName="ascendantant" Rank="22" IsDead="True"/>
+                    <m:LadderEntry  CharacterClass="Ascendant" CharacterName="ascendantant" Rank="222"/>
+                </x:Array>
+            </d:ListView.ItemsSource>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <dt:CharacterCell/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End">
+            <Button Text="&#xf100;" Clicked="FirstPage" BackgroundColor="Accent" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}"/>
+            <Button Text="&#xf104;" Clicked="PreviousPage" BackgroundColor="Aqua" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}"/>
+            <Label Text="{Binding DataStore.PageNo}" Style="{DynamicResource BodyTextStyle}" VerticalOptions="Center"/>
+            <Button Text="&#xf105;" Clicked="NextPage" BackgroundColor="Azure" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}"/>
+        </StackLayout>
+        
+    </StackLayout>
+    
+</ContentPage>
