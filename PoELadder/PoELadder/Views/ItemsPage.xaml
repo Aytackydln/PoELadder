@@ -55,10 +55,28 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End">
-            <Button Text="&#xf100;" Clicked="FirstPage" BackgroundColor="Accent" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}"/>
-            <Button Text="&#xf104;" Clicked="PreviousPage" BackgroundColor="Aqua" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}"/>
+            <Button Text="&#xf100;" Clicked="FirstPage" BackgroundColor="Accent" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}" Visual="Material">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding DataStore.PageNo}" Value="1">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Text="&#xf104;" Clicked="PreviousPage" BackgroundColor="Aqua" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}" Visual="Material">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding DataStore.PageNo}" Value="1">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Label Text="{Binding DataStore.PageNo}" Style="{DynamicResource BodyTextStyle}" VerticalOptions="Center"/>
-            <Button Text="&#xf105;" Clicked="NextPage" BackgroundColor="Azure" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}"/>
+            <Button Text="&#xf105;" Clicked="NextPage" BackgroundColor="Azure" FontFamily="{StaticResource FaSolid}" Style="{DynamicResource BodyTextStyle}" Visual="Material">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding DataStore.Items.Count}" Value="0">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </StackLayout>
         
     </StackLayout>
