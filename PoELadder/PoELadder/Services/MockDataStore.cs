@@ -51,7 +51,7 @@ namespace PoELadder.Services
 
         public MockDataStore()
         {
-            officialPoeClient.BaseAddress = new Uri("http://api.pathofexile.com/");
+            officialPoeClient.BaseAddress = new Uri("https://api.pathofexile.com/");
             Leagues = GetLeagues();
 
             if (App.Current.Properties.ContainsKey("selectedRealm"))
